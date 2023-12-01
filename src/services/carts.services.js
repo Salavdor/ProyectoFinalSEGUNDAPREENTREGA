@@ -3,9 +3,9 @@ const cartDao = new CartDaoMongoDB();
 import fs from "fs";
 import { __dirname } from "../utils.js";
 
-const cartsFile = JSON.parse(
-  fs.readFileSync(__dirname + "/data/Carts.json", "utf-8")
-);
+// const cartsFile = JSON.parse(
+//   fs.readFileSync(__dirname + "/data/Carts.json", "utf-8")
+// );
 
 export const aggregation1 = async(gender) =>{
   try {
@@ -32,15 +32,15 @@ export const updateManyAge = async() => {
   }
 }
 
-export const createFileCart = async () => {
-  try {
-    const newCart = await cartDao.createCart(cartsFile);
-    if (!newCart) return false;
-    return { message: "¡Carts saved successfully!" };
-  } catch (error) {
-    console.log(error);
-  }
-};
+// export const createFileCart = async () => {
+//   try {
+//     const newCart = await cartDao.createCart(cartsFile);
+//     if (!newCart) return false;
+//     return { message: "¡Carts saved successfully!" };
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 
 export const getByNameCart = async (name) => {

@@ -1,5 +1,5 @@
 import { ProductModel } from "./models/product.model.js";
-import { CartModel } from "./models/product.model.js";
+import { CartModel } from "./models/cart.model.js";
 
 export default class ProductDaoMongoDB {
 
