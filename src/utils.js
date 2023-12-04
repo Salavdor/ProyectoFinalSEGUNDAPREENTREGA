@@ -1,9 +1,7 @@
-import { dirname } from "path";
 import { fileURLToPath } from "url";
+import { dirname } from "path";
 
-export const __dirname = dirname(fileURLToPath(import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+export default __dirname;
 
-export const getRandomNumber = () => {
-  const random = Math.floor(Math.random() * 50);
-  return random;
-};

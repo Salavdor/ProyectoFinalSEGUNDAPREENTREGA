@@ -1,0 +1,60 @@
+<h1 class="title">Productos</h1>
+<div class="contenedor_padre">
+    <div class="formulario">
+        <form onsubmit="enviarFormulario(event)">
+            <label for="title">Título:</label>
+            <input type="text" id="title" name="title" required /><br /><br />
+
+            <label for="description">Descripción:</label>
+            <textarea id="description" name="description" required></textarea><br /><br />
+
+            <label for="price">Precio:</label>
+            <input type="number" id="price" name="price" required /><br /><br />
+
+            <label for="thumbnails">thumbnails:</label>
+            <input type="text" id="thumbnails" name="thumbnails" required /><br /><br />
+
+            <label for="code">Código:</label>
+            <input type="text" id="code" name="code" required /><br /><br />
+
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" name="stock" required /><br /><br />
+
+            <input type="submit" value="Enviar" />
+        </form>
+    </div>
+
+    <div class="productos">
+        <div class="container">
+        </div>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>
+<script>
+    const enviarFormulario = (event) => {
+        event.preventDefault();
+        const formulario = document.querySelector("form");
+        const datosFormulario = new FormData(formulario);
+        const title = datosFormulario.get('title')
+        const description = datosFormulario.get('description')
+        const price = datosFormulario.get('price')
+        const thumbnails = datosFormulario.get('thumbnails')
+        const code = datosFormulario.get('code')
+        const stock = datosFormulario.get('stock')
+        const producto = { title, description, price, thumbnails, code, stock }
+
+        fetch('/api/products', {
+            method: "POST",
+            body: JSON.stringify(producto),
+            headers: { "Content-type": "application/json" }
+        })
+            .then(response => {
+                console.log(response.json())
+            })
+            .catch(error => {
+                console.log("Error!: " + error)
+            });
+    }
+        ;</script>

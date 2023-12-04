@@ -1,0 +1,117 @@
+<nav>
+  <ul>
+    <li><a href="/api/products">Inicio</a></li>
+    <li>Filtrar por categoría
+      <ul>
+        <li><a href="?query=Hogar">Hogar</a></li>
+        <li><a href="?query=Deportes">Deportes</a></li>
+        <li><a href="?query=Electrónica">Electrónica</a></li>
+        <li><a href="?query=Ropa">Ropa</a></li>
+        <li><a href="?query=Libros">Libros</a></li>
+      </ul>
+    </li>
+    <li><a href="http://localhost:8080/api/carts/">Ver carro</a></li>
+  </ul>
+</nav>
+
+<div class="cartContainer">
+  <h2>Carrito de compras</h2>
+  <span style="text-align:center;display:grid">
+    ID carro:
+    {{cid}}</span>
+  {{#each data}}
+    <div class="cartProduct">
+
+      <p>Producto: {{this.title}}</p>
+      <span>Stock:</span><span id="stock">{{this.stock}}</span>
+      <span id="id" style="display: none;">{{this.producto}}</span>
+      <div class="cantidad">
+        <button id="disminuir">-</button>
+        <p>Cantidad:</p><p id="quantity">{{this.cantidad}}</p>
+        <button id="aumentar">+</button>
+      </div>
+      <p>Precio: $ {{this.price}}</p>
+
+    </div>
+  {{/each}}
+  <div class="final">
+    <h3>Total: $ {{data.total}}</h3>
+    <button onclick="limpiar()">Limpiar carro</button>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  const cid = "{{cid}}"; 
+  const limpiar= ()=>{
+  fetch(`http://localhost:8080/api/carts/${cid}`, {method:'DELETE'}) 
+  Swal.fire({
+  title: "Excelete!!",
+   text: "Carro fue vaciado con exito!", icon: "success",
+  showConfirmButton: false,
+   timer: 1500 });
+    setTimeout(function() {
+  location.reload(); }, 2000);} 
+
+  const btnDisminuir = document.querySelectorAll("#disminuir");
+  const btnAumentar = document.querySelectorAll("#aumentar");
+
+  
+btnDisminuir.forEach(function (boton, indice) {
+  boton.addEventListener("click", function (e) {
+    const div = boton.parentElement.parentElement;
+    const id = div.querySelector("#id");
+    const quantity = div.querySelector("#quantity");
+
+    const apiURL = `http://localhost:8080/api/carts/${cid}/products/${id.innerHTML}`;
+
+    const data = {quantity : quantity.innerHTML - 1}
+    const fetchOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body:JSON.stringify(data),
+    };
+
+    if(quantity.innerHTML >= 1){
+
+    fetch(apiURL,fetchOptions)
+    quantity.innerHTML -= 1
+      setTimeout(function() {
+  location.reload(); }, 2000);
+    
+
+    }
+
+  });
+});
+btnAumentar.forEach(function (boton, indice) {
+  boton.addEventListener("click", function (e) {
+    const div = boton.parentElement.parentElement;
+    const id = div.querySelector("#id");
+    const quantity = div.querySelector("#quantity");
+    const stock = div.querySelector("#stock")
+    const apiURL = `http://localhost:8080/api/carts/${cid}/products/${id.innerHTML}`;
+    const cantidad = parseInt(quantity.innerHTML)
+    
+    const data = {quantity : cantidad+1}
+    console.log(data)
+    const fetchOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body:JSON.stringify(data),
+    };
+
+    if(cantidad<stock.innerHTML){
+    fetch(apiURL,fetchOptions)
+    quantity.innerHTML = data.quantity
+  setTimeout(function() {
+  location.reload(); }, 2000);
+    }
+  });
+});
+
+</script>

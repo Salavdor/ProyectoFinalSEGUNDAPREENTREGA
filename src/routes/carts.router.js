@@ -1,28 +1,14 @@
-import { Router } from 'express';
-import * as controller from '../controllers/carts.controllers.js';
+import { Router } from "express";
+import * as controller from "../controllers/cart.controller.js";
 
 const router = Router();
-
-router.get('/aggregation1', controller.aggregation1);
-
-router.get('/aggregation2', controller.aggregation2);
-
-router.put('/updatedocs', controller.updateManyAge);
-
-router.post('/file', controller.createFileCtr);
-
-router.get('/all', controller.getAllCtr);
-
-router.get('/', controller.getByNameCtr);
-
-router.get('/id/:id', controller.getByIdCtr);
-
-router.get('/email/:email', controller.getByEmailCtr);
-
-router.post('/', controller.createCtr);
-
-router.put('/:id', controller.updateCtr);
-
-router.delete('/:id', controller.deleteCtr);
+router.get("/all", controller.getAll);
+router.get("/:cid", controller.getCart);
+router.get("/:id", controller.getById);
+router.post("/", controller.create);
+router.delete("/:cid/products/:pid", controller.remove);
+router.post("/:cid/products/:pid", controller.addProduct);
+router.delete("/:cid", controller.removeAll);
+router.put("/:cid/products/:pid", controller.cambiarCantidad)
 
 export default router;

@@ -1,0 +1,287 @@
+{{!-- <nav>
+    <ul>
+        <li><a href="/api/products">Inicio</a></li>
+        <li>Filtrar por categoría
+            <ul>
+                <li><a href="?query=Hogar">Hogar</a></li>
+                <li><a href="?query=Deportes">Deportes</a></li>
+                <li><a href="?query=Electrónica">Electrónica</a></li>
+                <li><a href="?query=Ropa">Ropa</a></li>
+                <li><a href="?query=Libros">Libros</a></li>
+            </ul>
+        </li>
+        <li><a href="http://localhost:8080/api/carts/6568dbb2d26183e385d11d0e">Ver carro</a></li>
+    </ul>
+</nav>
+<div class="container">
+  {{#each products}}
+    <div class="product">
+      <div class="img">
+      </div>
+      <h3>{{this.[title]}}</h3>
+      <p id="idProduct"style="display:none">{{this._id}}</p>
+      <p>{{this.category}}</p>
+      <p>{{this.description}}</p>
+      <p>$ {{this.price}}</p>
+      <p>Stock: {{this.stock}}</p>
+    <button id="addCart">Agregar al carrito</button>
+    </div>
+  {{/each}}
+</div> --}}
+
+
+
+<body>
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+      <symbol id="check2" viewBox="0 0 16 16">
+        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"></path>
+      </symbol>
+      <symbol id="circle-half" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"></path>
+      </symbol>
+      <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+        <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"></path>
+        <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"></path>
+      </symbol>
+      <symbol id="sun-fill" viewBox="0 0 16 16">
+        <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"></path>
+      </symbol>
+    </svg>
+
+    <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+      <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (dark)">
+        <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#moon-stars-fill"></use></svg>
+        <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text" style="">
+        <li>
+          <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+            <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em"><use href="#sun-fill"></use></svg>
+            Light
+            <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="dark" aria-pressed="true">
+            <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em"><use href="#moon-stars-fill"></use></svg>
+            Dark
+            <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+            <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em"><use href="#circle-half"></use></svg>
+            Auto
+            <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    
+<header data-bs-theme="dark">
+  <div class="text-bg-dark collapse show" id="navbarHeader" style="">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 col-md-7 py-4">
+          <h4>About</h4>
+          <p class="text-body-secondary">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
+        </div>
+        <div class="col-sm-4 offset-md-1 py-4">
+          <h4>Categorias</h4>
+            <ul>
+                <li><a class="text-white" href="?query=Hogar">Hogar</a></li>
+                <li><a class="text-white" href="?query=Deportes">Deportes</a></li>
+                <li><a class="text-white" href="?query=Electrónica">Electrónica</a></li>
+                <li><a class="text-white" href="?query=Ropa">Ropa</a></li>
+                <li><a class="text-white" href="?query=Libros">Libros</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container">
+      <a href="/api/products" class="navbar-brand d-flex align-items-center">
+        <strong>Farmacia</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="true" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="py-5 text-center container" style="background-image: url('https://www.mtcenter.com.mx/wp-content/uploads/blog_como_poner_farmacia-01-2048x1333.png');">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">Farmacia</h1>
+        <p class="lead text-body-secondary">Eu volutpat odio facilisis mauris sit. Sit amet luctus venenatis lectus magna fringilla urna porttitor rhoncus. Duis ultricies lacus sed turpis. In eu mi bibendum neque egestas congue quisque egestas. Eget dolor morbi non arcu. Massa eget egestas purus viverra accumsan in.</p>
+        {{!-- <p>
+          <a href="#" class="btn btn-primary my-2">Main call to action</a>
+          <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+        </p> --}}
+      </div>
+    </div>
+  </section>
+
+  <div class="album py-5 bg-body-tertiary">
+    <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
+
+{{#if products.length}}
+    {{#each products}}
+           <div class="col">
+          <div class="card shadow-sm">
+
+              <img src="{{this.thumbnails}}" class="card-img-top" alt="...">
+  <div class="card-body product">
+    <h5 class="card-title">{{this.[title]}}</h5>
+    <p class="card-text">{{this.description}}</p>
+    <small class="text-body-secondary">{{this.category}}</small>
+  <p id="idProduct"style="display:none">{{this._id}}</p>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><strong>Precio:</strong> ${{this.price}}</li>
+    <li class="list-group-item"><strong>Stock::</strong> ${{this.stock}}</li>
+  </ul>
+  <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button id="addCart" type="button" class="btn btn-sm btn-outline-secondary">Agregar al carrito</button>
+                </div>
+              </div>
+  </div>
+        </div>
+      </div>
+    {{/each}}
+{{else}}
+    <p>No se encontraron productos</p>
+{{/if}}
+
+
+
+    </div>
+    <div id="miDiv">
+  <button id="btnPreviewPage">Anterior</button>
+  <span id="pageNumber"></span>
+  <button id="btnNextPage">Siguiente</button>
+  
+</div>
+  </div>
+
+</main>
+
+<footer class="text-body-secondary py-5">
+  <div class="container">
+    <p class="float-end mb-1">
+      <a href="#">Back to top</a>
+    </p>
+    <p class="mb-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Justo donec enim diam vulputate ut pharetra sit amet aliquam.</p>
+    <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Justo donec enim diam vulputate ut pharetra sit amet aliquam.</p>
+  </div>
+</footer>
+
+
+    
+
+</body>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  const btnAddCart = document.querySelectorAll("#addCart")
+  const limit= {{opciones.limit}}
+  const page = {{opciones.page}}
+  const sort = "{{opciones.sort.price}}"
+  const urlActual = window.location.href;
+  let query = "{{query}}"
+  const hasPrevPage = {{resultado.hasPrevPage}}
+  const hasNextPage = {{resultado.hasNextPage}}
+  const totalPages = {{resultado.totalPages}}
+  const btnNextPage = document.getElementById("btnNextPage")
+  const btnPreviewPage = document.getElementById("btnPreviewPage")
+  const pageNumber = document.getElementById("pageNumber")
+pageNumber.innerHTML = `${page} de ${totalPages}`;
+if (hasNextPage) {
+  btnNextPage.addEventListener("click", () => {
+    if (sort && !query) {
+      window.location.href = `http://localhost:8080/api/products?page=${
+        page + 1
+      }&sort=${sort}`;
+    }
+
+    if (query && !sort) {
+      window.location.href = `http://localhost:8080/api/products?page=${
+        page + 1
+      }&limit=${limit}&query=${query}`;
+    }
+    if (!query && !sort) {
+      window.location.href = `http://localhost:8080/api/products?page=${
+        page + 1
+      }&limit=${limit}`;
+    }
+  });
+} else {
+  btnNextPage.style.background = "grey";
+}
+if (hasPrevPage) {
+  btnPreviewPage.addEventListener("click", () => {
+    if (sort && !query) {
+      window.location.href = `http://localhost:8080/api/products?page=${
+        page - 1
+      }&sort=${sort}`;
+    }
+    if (query && !sort) {
+      window.location.href = `http://localhost:8080/api/products?page=${
+        page - 1
+      }&limit=${limit}&query=${query}`;
+    }
+    if (!query && !sort) {
+      window.location.href = `http://localhost:8080/api/products?page=${
+        page - 1
+      }&limit=${limit}`;
+    }
+  });
+} else {
+  btnPreviewPage.style.background = "grey";
+}
+
+const idCart = `6568dbb2d26183e385d11d0e` // Carrito para pruebas.
+
+btnAddCart.forEach(function (boton, indice) {
+  boton.addEventListener("click", function () {
+    const div = boton.parentElement;
+    const idProduct = div.querySelector("#idProduct");
+    console.log(idProduct.innerHTML);
+    const api = `http://localhost:8080/api/carts/${idCart}/products/${idProduct.innerHTML}`;
+    console.log(api)
+
+    var fetchOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    
+    fetch(api,fetchOptions)
+    .then(response => response.json())
+    .then(data =>{
+        Swal.fire({
+          title: "Excelete!!",
+          text: "Tu producto fue agregado con exito!",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500
+        });
+    })
+    .catch(error=>{
+      console.error("Error al realizar la solicitud POST" , error)
+    })
+  });
+});
+</script>

@@ -1,0 +1,197 @@
+.title {
+  text-align: center;
+}
+.contenedor_padre {
+  display: flex;
+}
+
+.img {
+  background-color: #b9b1b1;
+  width: auto;
+  height: 150px;
+  border-radius: 10px;
+  margin: 10px;
+}
+.container {
+  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.product {
+  display: grid;
+  transition: all 1s;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  width: 300px;
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product h3 {
+  font-size: 20px;
+  margin: 0;
+  color: #333;
+}
+
+.product p {
+  margin: 5px 0;
+  color: #777;
+}
+
+.product p:first-child {
+  font-weight: bold;
+}
+
+.product p:nth-child(odd) {
+  font-weight: bold;
+  color: #555;
+}
+
+.product p:last-child {
+  font-size: 18px;
+  color: #ff6600;
+}
+.product:hover {
+  transform: scale(1.005); /* Escalamos el elemento al 105% en el hover */
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+form {
+  width: 400px;
+  margin: 0 auto;
+}
+label {
+  display: block;
+  margin-top: 10px;
+}
+input[type="text"],
+input[type="number"],
+textarea {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+input[type="file"] {
+  width: 100%;
+  margin-top: 5px;
+}
+input[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#miDiv {
+  justify-items: center;
+  align-items: center;
+  width: 300px;
+  margin: 0px auto;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+button {
+  display: inline-block;
+  margin: 10px;
+  padding: 5px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+button a{
+  text-decoration: none;
+  color:white
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+#addCart{
+  width: 250px;
+
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+nav {
+  background-color: #333;
+  color: #fff;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+nav li {
+  position: relative;
+  padding: 15px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #ffcc00;
+}
+
+nav ul ul {
+  display: none;
+  background-color: #444;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+nav ul li:hover > ul {
+  display: block;
+}
+
+nav ul ul li {
+  width: 100%;
+  display: list-item;
+}
+
+/* Estilos para el contenido de la página */
+.content {
+  padding: 20px;
+}
+
+/* Otros estilos para mejorar la apariencia general */
+a {
+  text-decoration: none;
+  color: #007BFF;
+}
+
+a:hover {
+  color: #0056b3;
+}

@@ -1,38 +1,52 @@
 import { ProductModel } from "./models/product.model.js";
-import { CartModel } from "./models/cart.model.js";
 
 export default class ProductDaoMongoDB {
-
-  async addProductToCart(cartId, productId){
+  async aggregation1(filtro) {
+    console.log(filtro);
     try {
-      const cart = await CartModel.findById(cartId);
-      cart.products.push(productId);
-      cart.save();
-      return cart;
+      return await ProductModel.aggregate([
+        {
+          $match: {
+            category: filtro,
+          },
+        },
+      ]);
     } catch (error) {
       console.log(error);
     }
   }
 
-  async getProductById(id) {
+  async getAll(query, opciones) {
     try {
-      const response = await ProductModel.findById(id);
+      const response = await ProductModel.paginate(
+        { category: query },
+        opciones
+      );
       return response;
     } catch (error) {
       console.log(error);
     }
   }
 
-  async getAllProducts() {
+  async getById(id) {
     try {
-      const response = await ProductModel.find({});
+      const response = await ProductModel.findById(id).lean();
       return response;
     } catch (error) {
       console.log(error);
     }
   }
 
-  async createProduct(obj) {
+  async getByIdJSON(id) {
+    try {
+      const response = await ProductModel.findById(id).lean();
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async create(obj) {
     try {
       const response = await ProductModel.create(obj);
       return response;
@@ -41,16 +55,18 @@ export default class ProductDaoMongoDB {
     }
   }
 
-  async updateProduct(id, obj) {
+  async update(id, obj) {
     try {
-      await ProductModel.updateOne({ _id: id }, obj);
-      return obj;
+      const response = await ProductModel.findByIdAndUpdate(id, obj, {
+        new: true,
+      });
+      return response;
     } catch (error) {
       console.log(error);
     }
   }
 
-  async deleteProduct(id) {
+  async delete(id) {
     try {
       const response = await ProductModel.findByIdAndDelete(id);
       return response;
