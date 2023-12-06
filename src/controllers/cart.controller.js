@@ -69,7 +69,7 @@ export const create = async (req, res, next) => {
     if (!newCart) {
       throw Error("Error creating cart");
     } else {
-      res.status(201).json({ msg: "Carro creado con exito ", newCart });
+      res.status(200).json({ msg: "Carro creado con exito ", newCart });
     }
   } catch (error) {
     next(error.message);

@@ -64,7 +64,8 @@ export const getById = async (req, res, next) => {
     if (!response) {
       res.status(404).json({ msg: "Product Not found!" });
     } else {
-      res.render("home", { style: "products.css", products: { response } });
+      console.log(response);
+      res.render("producto", { style: "products.css", products: { response } });
     }
   } catch (error) {
     next(error.message);
