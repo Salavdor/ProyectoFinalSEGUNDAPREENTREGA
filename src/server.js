@@ -1,5 +1,6 @@
 import express from "express";
 import productsRouter from "./routes/products.router.js";
+import sessionRouter from "./routes/user.router.js";
 import chatRouter from "./routes/chat.router.js";
 import handlebars from "express-handlebars";
 import cartsRouter from "./routes/carts.router.js";
@@ -7,7 +8,10 @@ import __dirname from "./utils.js";
 import { errorHandler } from "./middlewares/errorHanlder.js";
 import { Server } from "socket.io";
 import * as service from "./services/chat.service.js";
-import { initMongoDB } from "./daos/mongodb/connection.js";
+import { connectionString, initMongoDB } from "./daos/mongodb/connection.js";
+import MongoStore from "connect-mongo";
+import cookieParser from "cookie-parser";
+import session from "express-session";
 
 const persistence = "MONGO";
 
@@ -17,6 +21,25 @@ const httpServer = app.listen(PORT, () => {
   console.log("Server corriendo en puerto ", PORT);
 });
 if (persistence === "MONGO") await initMongoDB();
+
+const mongoStoreOptions = {
+  store: MongoStore.create({
+    mongoUrl: connectionString,
+    ttl: 600,
+    crypto: {
+      secret: "1234",
+    },
+  }),
+  secret: "1234",
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 600000,
+  },
+};
+
+app.use(cookieParser());
+app.use(session(mongoStoreOptions));
 
 const socketServer = new Server(httpServer);
 app.engine("handlebars", handlebars.engine());
@@ -31,6 +54,7 @@ app.use(errorHandler);
 // Routes
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
+app.use("/api/session", sessionRouter);
 app.use("/chat", chatRouter);
 
 let usuariosConectado = [];
