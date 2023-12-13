@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 //export const connectionString = "mongodb://127.0.0.1:27017/farmacia";
-const connectionString = "mongodb+srv://Admin:5kSTLCIRxPS3kZzS@coderhouse.9tlb0vq.mongodb.net/?retryWrites=true&w=majority";
+export const connectionString = "mongodb+srv://Admin:5kSTLCIRxPS3kZzS@coderhouse.9tlb0vq.mongodb.net/?retryWrites=true&w=majority";
 
 export const initMongoDB = async () => {
   try {
