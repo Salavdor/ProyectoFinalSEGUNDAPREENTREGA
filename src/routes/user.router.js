@@ -1,18 +1,19 @@
-import { Router } from "express";
-import * as UserController from "../controllers/user.controllers.js";
-
+import { Router } from 'express';
+// import { checkAuth } from '../middlewares/authJwt.js';
+import passport from "passport";
+import UserController from '../controllers/user.controllers.js';
+const controller = new UserController();
 
 const router = Router();
 
+router
+        .post('/register', controller.register)
+        .post('/login', controller.login)
+        // .get('/profile', checkAuth, controller.profile)
 
-router.get("/", UserController.loginForm);
-router.get("/register", UserController.registerForm);
-router.get("/profile", UserController.profile);
-router.get("/register-error", UserController.registerError);
+        // .get("/private-cookies", passport.authenticate("jwtCookies"), controller.privateCookies)
 
-
-router.post("/register", UserController.register);
-router.post("/login", UserController.login);
-router.post("/logout", UserController.logout);
+        .get('/current', passport.authenticate("jwtCookies"), controller.currentUser)
 
 export default router;
+

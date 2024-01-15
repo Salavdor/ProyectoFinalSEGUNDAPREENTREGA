@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose'
 
-const userSchema = new Schema({
+const usersSchema = new Schema({
   first_name: {
     type: String,
     required: true,
@@ -17,6 +17,7 @@ const userSchema = new Schema({
   age: {
     type: Number,
     required: true,
+    default: 0
   },
   password: {
     type: String,
@@ -24,8 +25,18 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    default: "user",
+    default: 'user'
   },
-});
-
-export const UserModel = model("users", userSchema);
+  isGithub: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  isGoogle: {
+    type: Boolean,
+    required: true,
+    default: false
+  }
+})
+const userColl = 'users'
+export const UserModel = model(userColl,usersSchema)

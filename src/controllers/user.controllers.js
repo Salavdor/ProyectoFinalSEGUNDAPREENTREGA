@@ -1,75 +1,86 @@
-import * as UserServices from "../services/user.services.js";
+import Controllers from "./class.controller.js";
+import UserService from "../services/user.services.js";
+import { createResponse } from "../utils.js";
+const userService = new UserService();
 
+import factory from "../daos/factory.js";
+const { userDao } = factory;
 
-export const loginForm = async (req, res, next) => {
-  try {
-    res.render('login')
-  } catch (error) {
-    next(error);
+export default class UserController extends Controllers {
+  constructor() {
+    super(userService);
   }
-};
 
-export const registerForm = async (req, res, next) => {
-  try {
-    res.render("register");
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const profile = async (req, res, next) => {
-  try {
-    const userData = {
-      firstname: req.session.first_name,
-      role: req.session.role
+  register = async (req, res, next) => {
+      try{
+        res.redirect('/api/login');
+    }catch(error){
+        res.redirect('/api/error-register');
     }
-    console.log(userData);
-    res.render('profile', {userData: userData})
-  } catch (error) {
-    next(error);
-  }
-};
+  };
 
-export const registerError = async (req, res, next) => {
-  try {
-    res.render('register-error')
-  } catch (error) {
-    next(error);
-  }
-};
+  login = async (req, res, next) => {
+      try{
+        res.cookie('token', req.user.access_token, {httpOnly: true}).redirect('/api/profile');
+    }catch(error){
+        res.redirect('/api/error-login');
+    }
+  };
 
-export const register = async (req, res, next) => {
-  try {
-    const user = await UserServices.register(req.body);
-    if (user) res.redirect("/api/users");
-    else res.redirect("/api/users/register-error");
-  } catch (error) {
-    next(error);
-  }
-};
+  profile = (req, res, next) => {
+    try {
+      const { first_name, last_name, email, role } = req.user;
+      createResponse(res, 200, {
+        first_name,
+        last_name,
+        email,
+        role,
+      });
+    } catch (error) {
+      next(error.message);
+    }
+  };
 
-export const login = async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
-    const user = await UserServices.login(email, password);
-    console.log(user);
-    if (user) {
-      req.session.email = email;
-      req.session.password = password;
-      req.session.first_name = user.first_name;
-      req.session.role = user.role;
-      res.redirect("/api/products/");
-    } else res.redirect("/api/users/error-login");
-  } catch (error) {
-    next(error);
+  privateCookies = async(req, res) => {
+    try {
+      const { userId } = req.user;
+      const user = await userService.getById(userId);
+      // console.log(user)
+      if (!user) res.send("Not found");
+      else {
+        const { first_name, last_name, email, role } = user;
+        res.json({
+          status: "success",
+          userData: {
+            first_name,
+            last_name,
+            email,
+            role,
+          },
+        });
+      }
+    } catch (error) {
+      next(error.message);
+    }
   }
-};
 
-export const logout = async (req, res, next) => {
-  try {
-    req.session.destroy();
-    res.redirect("/api/users/");
-  } catch (error) {
-    console.log(error);
-  }
-};
+
+  githubResponse = async(req, res, next)=>{
+    try {
+        res.redirect('/api/profile');
+    } catch (error) {
+        res.redirect('/api/error-login');
+    }
+}
+
+ currentUser = async(req, res, next)=>{
+    try{
+        console.log(req.user);
+        res.redirect('/api/current');
+    }catch(error){
+        res.redirect('/api/profile');
+    }
+}
+}
+
+
