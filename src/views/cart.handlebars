@@ -1,0 +1,207 @@
+<section class="gradient-custom" style="min-height: 100%">
+  <div class="container py-5">
+    <div class="row d-flex justify-content-center my-4">
+      <div class="col-md-8">
+        <div class="card mb-4">
+          <div class="card-header py-3">
+            <h5 class="mb-0">ID carro: {{cid}}</h5>
+          </div>
+          <div class="card-body">
+
+
+
+{{#each data}}
+            <!-- Single item -->
+            <div class="row">
+              <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                <!-- Image -->
+                <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                  <img src="{{this.thumbnails}}"
+                    class="w-100" alt="..." />
+                  <a href="#!">
+                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+                  </a>
+                </div>
+                <!-- Image -->
+              </div>
+
+              <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                <!-- Data -->
+                <p><strong>{{this.title}}</strong></p>
+                <p><strong>Stock:</strong><span id="stock">{{this.stock}}</span></p>
+                <p><span>Id:</span><span id="id">{{this.producto}}</span></p>
+                <!-- Data -->
+              </div>
+
+              <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                <!-- Quantity -->
+                <div class="d-flex mb-4" style="max-width: 300px" prod-id="{{this.producto}}">
+                  <button id="disminuir" class="btn btn-primary px-3 me-2">
+                    <i class="fas fa-minus"></i>
+                  </button>
+
+                  <div class="form-outline">
+                    <label id="quantity" class="form-label" for="form1">{{this.cantidad}}</label>
+                  </div>
+
+                  <button id="aumentar" class="btn btn-primary px-3 ms-2">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+                <!-- Quantity -->
+
+                <!-- Price -->
+                <p class="text-start text-md-center">
+                  <strong>$ {{this.price}}</strong>
+                </p>
+                <!-- Price -->
+              </div>
+            </div>
+            <!-- Single item -->
+
+            <hr class="my-4" />
+  {{/each}}
+
+          </div>
+        </div>
+
+
+
+        <div class="card mb-4">
+          <div class="card-body">
+            <p><strong>Expected shipping delivery</strong></p>
+            <p class="mb-0">12.10.2020 - 14.10.2020</p>
+          </div>
+        </div>
+        <div class="card mb-4 mb-lg-0">
+          <div class="card-body">
+            <p><strong>We accept</strong></p>
+            <img class="me-2" width="45px"
+              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
+              alt="Visa" />
+            <img class="me-2" width="45px"
+              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
+              alt="American Express" />
+            <img class="me-2" width="45px"
+              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
+              alt="Mastercard" />
+            <img class="me-2" width="45px"
+              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.png"
+              alt="PayPal acceptance mark" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-header py-3">
+            <h5 class="mb-0">Resumen</h5>
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                <div>
+                  <strong>Total</strong>
+                  <strong>
+                    {{!-- <p class="mb-0">(including VAT)</p> --}}
+                  </strong>
+                </div>
+                <span><strong>${{data.total}}</strong></span>
+              </li>
+            </ul>
+
+            <button onclick="limpiar()" type="button" class="btn btn-primary btn-lg btn-block">
+              Limpiar carro
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  const cid = "{{cid}}"; 
+  const limpiar= ()=>{
+  fetch(`http://localhost:8080/api/carts/${cid}`, {method:'DELETE'}) 
+  Swal.fire({
+  title: "Excelete!!",
+   text: "Carro fue vaciado con exito!", icon: "success",
+  showConfirmButton: false,
+   timer: 1500 });
+    setTimeout(function() {
+  location.reload(); }, 2000);} 
+
+  const btnDisminuir = document.querySelectorAll("#disminuir");
+  const btnAumentar = document.querySelectorAll("#aumentar");
+
+  
+btnDisminuir.forEach(function (boton, indice) {
+  boton.addEventListener("click", function (e) {
+    const div = boton.parentElement;
+    console.log(div);
+
+    let valueId = div.getAttribute('prod-id');
+    console.log('valueId attributte: ', valueId);
+
+    const quantity = div.querySelector("#quantity");
+    console.log(quantity);
+    const apiURL = `http://localhost:8080/api/carts/${cid}/products/${valueId}`;
+
+    const data = {quantity : quantity.innerHTML - 1}
+    const fetchOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body:JSON.stringify(data),
+    };
+
+    if(quantity.innerHTML >= 1){
+
+    fetch(apiURL,fetchOptions)
+    quantity.innerHTML -= 1
+      setTimeout(function() {
+  location.reload(); }, 2000);
+    
+
+    }
+
+  });
+});
+btnAumentar.forEach(function (boton, indice) {
+  boton.addEventListener("click", function (e) {
+    const div = boton.parentElement;
+
+    let valueId = div.getAttribute('prod-id');
+    console.log('valueId attributte: ', valueId);
+
+    const quantity = div.querySelector("#quantity");
+    const apiURL = `http://localhost:8080/api/carts/${cid}/products/${valueId}`;
+    
+    const data = {quantity : quantity.innerHTML + 1}
+    console.log(data)
+    const fetchOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body:JSON.stringify(data),
+    };
+
+    if(cantidad<stock.innerHTML){
+    fetch(apiURL,fetchOptions)
+    quantity.innerHTML = data.quantity
+  setTimeout(function() {
+  location.reload(); }, 2000);
+    }
+  });
+});
+
+</script>
