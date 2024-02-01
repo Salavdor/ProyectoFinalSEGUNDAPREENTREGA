@@ -35,5 +35,8 @@
     "passport-local": "^1.0.0",
     "@handlebars/allow-prototype-access": "^1.0.5",
     "handlebars.moment": "^1.0.4"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^6.2.0"
   }
 }
