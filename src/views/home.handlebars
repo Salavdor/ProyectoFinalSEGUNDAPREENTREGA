@@ -1,0 +1,144 @@
+
+        <!-- Section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                  {{#if products.length}}
+    {{#each products}}
+                              <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="{{this.thumbnails}}" alt="..." />
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">{{this.[title]}}</h5>
+                                    <p class="card-text">{{this.description}}</p>
+                                    <small class="text-body-secondary">{{this.category}}</small><br>
+                                    <small class="text-body-secondary"><strong>Stock: {{this.stock}}</strong></small><br>
+                                    <!-- Product price-->
+                                    ${{this.price}}
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a id="addCart" class="btn btn-outline-dark mt-auto" prod-id="{{this._id}}">Add to cart</a></div>
+                            </div>
+                        </div>
+                    </div>
+    {{/each}}
+{{else}}
+    <p>No se encontraron productos</p>
+{{/if}}
+                </div>
+
+                    <div id="miDiv">
+  <button id="btnPreviewPage">Anterior</button>
+  <span id="pageNumber"></span>
+  <button id="btnNextPage">Siguiente</button>
+</div>
+            </div>
+        </section>
+<form action="/api/users/logout" method="post">
+  <button type="submit" value="LOGOUT">Cerrar Sesion</button>
+</form>
+<script>
+    alert("Bienvenido {{userData.firstname}}");
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  const btnAddCart = document.querySelectorAll("#addCart")
+  const limit= {{opciones.limit}}
+  const page = {{opciones.page}}
+  const sort = "{{opciones.sort.price}}"
+  const urlActual = window.location.href;
+  let query = "{{query}}"
+  const hasPrevPage = {{resultado.hasPrevPage}}
+  const hasNextPage = {{resultado.hasNextPage}}
+  const totalPages = {{resultado.totalPages}}
+  const btnNextPage = document.getElementById("btnNextPage")
+  const btnPreviewPage = document.getElementById("btnPreviewPage")
+  const pageNumber = document.getElementById("pageNumber")
+pageNumber.innerHTML = `${page} de ${totalPages}`;
+if (hasNextPage) {
+  btnNextPage.addEventListener("click", () => {
+    if (sort && !query) {
+      window.location.href = `http://localhost:8080/api/products?page=${
+        page + 1
+      }&sort=${sort}`;
+    }
+
+    if (query && !sort) {
+      window.location.href = `http://localhost:8080/api/products?page=${
+        page + 1
+      }&limit=${limit}&query=${query}`;
+    }
+    if (!query && !sort) {
+      window.location.href = `http://localhost:8080/api/products?page=${
+        page + 1
+      }&limit=${limit}`;
+    }
+  });
+} else {
+  btnNextPage.style.background = "grey";
+}
+if (hasPrevPage) {
+  btnPreviewPage.addEventListener("click", () => {
+    if (sort && !query) {
+      window.location.href = `http://localhost:8080/api/products?page=${
+        page - 1
+      }&sort=${sort}`;
+    }
+    if (query && !sort) {
+      window.location.href = `http://localhost:8080/api/products?page=${
+        page - 1
+      }&limit=${limit}&query=${query}`;
+    }
+    if (!query && !sort) {
+      window.location.href = `http://localhost:8080/api/products?page=${
+        page - 1
+      }&limit=${limit}`;
+    }
+  });
+} else {
+  btnPreviewPage.style.background = "grey";
+}
+
+const idCart = `65701f1bb5ceda730dcdbe06` // Carrito para pruebas.
+
+btnAddCart.forEach(function (boton, indice) {
+  boton.addEventListener("click", function () {
+    const div = boton.parentElement;
+    const idProduct = div.querySelector("#addCart");
+    console.log(idProduct);
+    let valueId = idProduct.getAttribute('prod-id');
+    console.log('valueId attributte: ', valueId);
+    console.log(idCart);
+    const api = `http://localhost:8080/api/carts/${idCart}/products/${valueId}`;
+    console.log(api)
+
+    var fetchOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    
+    fetch(api,fetchOptions)
+    .then(response => response.json())
+    .then(data =>{
+        Swal.fire({
+          title: "Excelete!!",
+          text: "Tu producto fue agregado con exito!",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500
+        });
+    })
+    .catch(error=>{
+      console.error("Error al realizar la solicitud POST" , error)
+    })
+  });
+});
+</script>

@@ -1,0 +1,63 @@
+components:
+  parameters:
+    schemas:
+      BodyProduct:
+        type: object
+        required:
+          - title
+          - description
+          - price
+          - thumbnails
+          - code
+          - stock
+          - category
+        properties:
+          title:
+            type: string
+            description: Nombre del producto
+          description:
+            type: string
+            description: Descripción del producto
+          price:
+            type: number
+            description: Precio del producto
+          thumbnails:
+            type: string
+            description: Imagen del Producto
+          code:
+            type: string
+            description: Codigo del producto
+          stock:
+            type: number
+            description: Productos existentes en base de datos
+          category:
+            type: string
+            description: Categoria del producto
+        example:
+          title: ORAL-B ADVANCED 5 ACCIONES DE LIMPIEZA CEPILLO DENTAL SUAVE 2 UNIDADES
+          description: Cepillo de Dientes Suave Oral-B Advanced 5 Acciones de Limpieza 2 Unidades
+          price: 57.90
+          thumbnails: 'https://www.fahorro.com/media/catalog/product/cache/3fba745dcec88e97bfe808bedc471260/3/0/3014260014445_1.jpg'
+          code: ABC001
+          stock: 400
+          category: Higiene Bucal 
+      login: 
+        type: object
+        required:   
+          - email
+          - password
+        properties:  
+          email:
+            type: string
+            description: Email del usuario 
+          password:
+            type: string
+            description: Password del usuario
+        example:
+          email: coderhouse@mail.com
+          password: "1234"
+  securitySchemes:
+    BearerAuth: 
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

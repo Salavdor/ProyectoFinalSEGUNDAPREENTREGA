@@ -1,0 +1,76 @@
+               <!-- Product section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+
+                {{#if products}}
+    {{#each products}}
+<div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{this.thumbnails}}" alt="..." /></div>
+                    <div class="col-md-6">
+                        <div class="small mb-1">{{this.category}}</div>
+                        <h1 class="display-5 fw-bolder">{{this.[title]}}</h1>
+                        <div class="fs-5 mb-5">
+                            <span>${{this.price}}</span>
+                        </div>
+                        <p class="lead">{{this.description}}</p>
+                        <div class="d-flex">
+                            <input class="form-control text-center me-3" id="inputQuantity" type="num" value="{{this.stock}}" style="max-width: 4rem" />
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button" id="addCart" prod-id="{{this._id}}">
+                                <i class="bi-cart-fill me-1"></i>
+                                Add to cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+    {{/each}}
+{{else}}
+    <p>No se encontraron productos</p>
+{{/if}}
+            </div>
+        </section>
+       <form action="/api/users/logout" method="post">
+  <button type="submit" value="LOGOUT">Cerrar Sesion</button>
+</form> 
+<script>
+    alert("Bienvenido {{userData.firstname}}");
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  const btnAddCart = document.querySelectorAll("#addCart")
+const idCart = `65701f1bb5ceda730dcdbe06` // Carrito para pruebas.
+
+btnAddCart.forEach(function (boton, indice) {
+  boton.addEventListener("click", function () {
+    const div = boton.parentElement;
+    const idProduct = div.querySelector("#addCart");
+    console.log(idProduct);
+    let valueId = idProduct.getAttribute('prod-id');
+    console.log('valueId attributte: ', valueId);
+    console.log(idCart);
+    const api = `http://localhost:8080/api/carts/${idCart}/products/${valueId}`;
+    console.log(api)
+
+    var fetchOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    
+    fetch(api,fetchOptions)
+    .then(response => response.json())
+    .then(data =>{
+        Swal.fire({
+          title: "Excelete!!",
+          text: "Tu producto fue agregado con exito!",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500
+        });
+    })
+    .catch(error=>{
+      console.error("Error al realizar la solicitud POST" , error)
+    })
+  });
+});
+</script>
