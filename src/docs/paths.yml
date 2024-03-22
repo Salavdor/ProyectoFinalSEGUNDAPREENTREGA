@@ -1,0 +1,346 @@
+paths:
+  /users/register:
+    post:
+      tags:
+      - Users
+      summary: Registro de nuevo Usuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/User'
+        required: true
+      responses:
+          200:
+            description: Se registró el producto correctamente
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schema/Users/profile'
+          404:
+            description: error en validacion del body
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schema/Products/ValidationSchemaError'
+          500:
+            description: error en validacion del body
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schema/Products/NotFound'     
+  /users/login:
+    post:
+      tags: 
+      - Users
+      summary: Login de usuario  
+      requestBody:  
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/parameters/schemas/login'
+        required: true
+      responses:  
+        200:
+          description: Login success
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schema/Users/User'
+  /users/current:
+    get:
+      tags:
+      - Users
+      summary: Datos del usuario autenticado
+      responses:
+        200:
+          description: Datos del usuario
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Users/profile'
+      security:
+        - BearerAuth: []
+  /users/users_list:
+    get:
+      tags:
+      - Users
+      summary: Obtiene los usuarios pero solo devuelbe datos Principales 
+      responses:
+        200:
+          description: Datos del usuario
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Users/profile'
+      security:
+        - BearerAuth: []                           
+
+  /users/logout:
+    delete:
+      tags: 
+      - Users
+      summary: Cerrar sesion 
+      responses:  
+        200:
+          description: Login success
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schema/Users/User'
+      security:
+        - BearerAuth: [] 
+  /users/:                        
+    delete:
+      tags: 
+      - Users
+      summary: Elimina todos los usuarios que no se han conectado en 2 días 
+      responses:  
+        200:
+          description: Login success
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schema/Users/User'
+      security:
+        - BearerAuth: []
+          
+    
+  /products:
+    post:
+      tags:
+      - Productos
+      summary: Registro de nuevo producto
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/BodyProduct'
+        required: true
+      responses:
+          200:
+            description: Se registró el producto correctamente
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schema/Products/NewProduct'
+          404:
+            description: error en validacion del body
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schema/Products/ValidationSchemaError'
+          500:
+            description: error en validacion del body
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schema/Products/NotFound'
+      security:
+        - BearerAuth: []            
+    get:
+      tags:
+      - Productos
+      summary: Lista de Productos
+      responses:
+        200:
+          description: Lista de Productos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Products/GetAllProducts'
+        500:
+          description: Error de servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Products/NotFound'
+  /products/{id}:
+    get:
+      tags:
+      - Productos
+      summary: Productos por id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id referente al producto
+          schema:
+            type: string
+      responses:
+        200:
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Products/NewProduct'
+        404:
+          description: No se enconrtó el id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Products/ErrorGetById'
+    put:
+      tags:
+      - Productos
+      summary: Editar Producto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: string id required
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/BodyProduct'
+        required: true
+      responses:
+          200:
+            description: Producto actualizado
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schema/Products/NewProduct'
+          404:
+            description: No se encuentra producto con id {id}
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schema/Products/ErrorGetById'   
+      security:
+        - BearerAuth: []            
+    delete:
+      tags:
+      - Productos
+      summary: Eliminar Producto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: string id required
+          schema:
+            type: string
+      responses:
+          200:
+            description: Producto eliminado
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schema/Products/NewProduct'
+          404:
+            description: No se encuentra producto con id {id}
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schema/Products/ErrorGetById'   
+      security:
+        - BearerAuth: []             
+
+  /cart/{id}:
+    get:
+      tags:
+      - Cart
+      summary: Obtener carrito por id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id referente al carrito
+          schema:
+            type: string
+      responses:
+        200:
+          description: Datos del carrito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Cart/Cart'
+    post:
+      tags:
+      - Cart
+      summary: Agregar producto a carrito
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id de producto a agregar
+          schema:
+            type: string
+      responses:
+        200:
+          description: Datos del carrito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Cart/Cart'
+      security:
+        - BearerAuth: []  
+    delete:
+      tags:
+      - Cart
+      summary: Eliminar Producto de carrito
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id de producto a borrar
+          schema:
+            type: string
+      responses:
+          200:
+            description: Producto eliminado de carrito
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schema/Cart/Cart'
+          404:
+            description: No se encuentra producto con id {id}
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schema/Products/ErrorGetById'   
+      security:
+        - BearerAuth: []      
+  /cart:
+    delete:
+      tags:
+      - Cart
+      summary: Eliminar Productos de carrito
+      responses:
+          200:
+            description: Productos eliminados de carrito
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schema/Cart/Cart'
+          404:
+            description: No se encuentra producto con id {id}
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schema/Products/ErrorGetById'   
+      security:
+        - BearerAuth: [] 
+  /cart/purchase:
+    put:
+      tags:
+      - Cart
+      summary: Realizar compra
+      responses:
+          200:
+            description: Producto actualizado
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schema/Cart/Cart'
+          404:
+            description: No se encuentra producto con id {id}
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schema/Products/ErrorGetById'   
+      security:
+        - BearerAuth: []   

@@ -1,0 +1,25 @@
+<form method="get" action="/api/sessions/logout">
+    <h1>Bienvenido</h1>
+    <p>Bienvenido {{full_name}}</p>
+    <p>Nivel de usuario: {{role}}</p>
+    <p>Email: {{email}}</p>
+    <p>Edad: {{age}}</p>
+    <button type="submit">Logout</button>
+</form>
+
+<form action="/api/sessions/{{_id}}/documents" method="post" enctype="multipart/form-data">
+    <h3>Subir documentos para actualizar a premium</h3>
+    <div>
+        <label for="">Imágen de perfil</label>
+        <input type="file" name="imagenPerfil">
+    </div>
+    <div>
+        <label for="">Imágen del producto</label>
+        <input type="file" name="imagenProducto">
+    </div>
+    <div>
+        <label for="">Documentos de identificación, domicilio, estado de cuenta.</label>
+        <input type="file" name="documents" multiple>
+    </div>
+    <button type="submit">Subir archivos</button>
+</form>

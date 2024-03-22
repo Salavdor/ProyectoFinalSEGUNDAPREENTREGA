@@ -1,0 +1,98 @@
+components:
+  parameters:
+    schemas:
+      BodyProduct:
+        type: object
+        required:
+          - title
+          - descripcion
+          - precio
+          - imagen
+          - codigo
+          - stock
+          - categoria
+        properties:
+          title:
+            type: string
+            description: Nombre del producto
+          descripcion:
+            type: string
+            description: Descripción del producto
+          precio:
+            type: number
+            description: Precio del producto
+          imagen:
+            type: string
+            description: Imagen del Producto
+          codigo:
+            type: string
+            description: Codigo del producto
+          stock:
+            type: number
+            description: Productos existentes en base de datos
+          categoria:
+            type: string
+            description: Categoria del producto
+        example:
+          title: PRODUCTO
+          descripcion: Cepillo de Dientes Suave Oral-B Advanced 5 Acciones de Limpieza 2 Unidades
+          precio: 57.90
+          imagen: 'https://www.fahorro.com/media/catalog/product/cache/3fba745dcec88e97bfe808bedc471260/3/0/3014260014445_1.jpg'
+          codigo: ABC001
+          stock: 400
+          categoria: Higiene Bucal 
+      login: 
+        type: object
+        required:   
+          - email
+          - password
+        properties:  
+          email:
+            type: string
+            description: Email del usuario 
+          password:
+            type: string
+            description: Password del usuario
+        example:
+          email: usertestadmin@mail.com
+          password: '1234'
+      User:
+        type: object
+        required:
+          - first_name
+          - last_name
+          - email
+          - age
+          - password
+          - role
+        properties:
+          first_name:
+            type: string
+            description: Nombre de usuario
+          last_name:
+            type: string
+            description: Apellido de usuario
+          email:
+            type: string
+            description: Email de usuario
+          age:
+            type: number
+            description: Edad de usuario
+          password:
+            type: string
+            description: Contraseña de usuario
+          role:
+            type: string
+            description: Rol de usuario
+        example:
+          first_name:  UserName
+          last_name: UserLastName
+          email:  usertest@mail.com
+          age:  32
+          password: '1234'
+          role: user
+  securitySchemes:
+    BearerAuth: 
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,162 @@
+components:
+  schema:
+    Products:
+      NewProduct:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Id del producto
+          title:
+            type: string
+            description: Título del producto
+          description:
+            type: string
+            description: Descripción del producto
+          price:
+            type: number
+            description: Precio unitario de producto
+          thumbnails:
+            type: string
+            description: Imagen del Producto  
+          code:
+            type: string
+            description: Codigo producto
+          stock:
+            type: number
+            description: Cantidad en stock del producto
+          status:
+            type: boolean
+            description: Producto activo o no
+          category:
+            type: string
+            description: Categoria del producto
+        example:
+          id: 6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b
+          title: ORAL-B ADVANCED 5 ACCIONES DE LIMPIEZA CEPILLO DENTAL SUAVE 2 UNIDADES
+          description: Cepillo de Dientes Suave Oral-B Advanced 5 Acciones de Limpieza 2 Unidades
+          price: 57.90
+          thumbnails: 'https://www.fahorro.com/media/catalog/product/cache/3fba745dcec88e97bfe808bedc471260/3/0/3014260014445_1.jpg'
+          code: ABC001
+          stock: 400
+          status: true
+          category: Higiene Bucal 
+      GetAllProducts:
+        type: array
+        items:
+            properties:
+              id:
+                type: string
+                description: Id del producto
+              title:
+                type: string
+                description: Título del producto
+              description:
+                type: string
+                description: Descripción del producto
+              price:
+                type: number
+                description: Precio unitario de producto
+              thumbnails:
+                type: string
+                description: Imagen del Producto  
+              code:
+                type: string
+                description: Codigo producto
+              stock:
+                type: number
+                description: Cantidad en stock del producto
+              status:
+                type: boolean
+                description: Producto activo o no
+              category:
+                type: string
+                description: Categoria del producto
+            example:
+              id: 6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b
+              title: ORAL-B ADVANCED 5 ACCIONES DE LIMPIEZA CEPILLO DENTAL SUAVE 2 UNIDADES
+              description: Cepillo de Dientes Suave Oral-B Advanced 5 Acciones de Limpieza 2 Unidades
+              price: 57.90
+              thumbnails: 'https://www.fahorro.com/media/catalog/product/cache/3fba745dcec88e97bfe808bedc471260/3/0/3014260014445_1.jpg'
+              code: ABC001
+              stock: 400
+              status: true
+              category: Higiene Bucal 
+      ValidationSchemaError:
+        type: object
+        properties:
+          message:
+            type: string
+            description: Validation schema error
+      NotFound:
+        type: object
+        properties:
+          message:
+            type: string
+            description: Error de servidor
+      ErrorGetById:
+        type: object
+        properties:
+          message:
+            type: string
+            description: No se encontró el id en la base de datos
+  
+    Users:
+      User:
+        type: object
+        properties: 
+          status:
+            type: number
+            description: Código de estado de la petición
+          message:
+            type: string
+            description: Estado de la petición
+          data:
+            type: string
+            description: Token del usuario autenticado
+        example:
+          status: 200
+          message: Success
+          data: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU1MzZhZjU5ZGM3ZDcwZTczZDhjYWMiLCJpYXQiOjE2OTMzOTMzODIsImV4cCI6MTY5MzM5NDI4Mn0.3t3rqyv_3CPzd6yNnJgPvifmw2IBvY0Il7eqc4Zgh_w    
+      profile:
+        type: object
+        properties:
+          status:
+            type: number
+            description: Código de estado de la petición
+          message:
+            type: string
+            description: Estado de la petición
+          data:
+            type: object
+            description: Datos del usuario autenticado          
+        example:
+          status: 200
+          message: Success
+          data: 
+            first_name: UserName
+            last_name: UserLastName
+            email: userpruebaswagger@mail.com
+            role: user
+            
+
+    Cart:
+      Cart:
+        type: object
+        properties: 
+          status:
+            type: number
+            description: Código de estado de la petición
+          message:
+            type: string
+            description: Estado de la petición
+          data:
+            type: string
+            description: Token del usuario autenticado
+        example:
+          status: 200
+          message: Success
+          data: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU1MzZhZjU5ZGM3ZDcwZTczZDhjYWMiLCJpYXQiOjE2OTMzOTMzODIsImV4cCI6MTY5MzM5NDI4Mn0.3t3rqyv_3CPzd6yNnJgPvifmw2IBvY0Il7eqc4Zgh_w    
+
+
+    
