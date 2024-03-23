@@ -31,23 +31,6 @@ export const mongoStoreOptions = {
   },
 };
 
-// generador de productos aleatoria
-
-import { faker } from "@faker-js/faker";
-faker.locale = "es"
-
-export const generateProdFaker = () => {
-  return {
-    title: faker.animal.type(),
-    description: faker.lorem.sentences(2),
-    price: faker.number.float({ min: 10, max: 100, multipleOf: 0.02 }),
-    thumbnails: faker.image.imageUrl(),
-    code: faker.number.hex({ min: 0, max: 65535 }),
-    stock: faker.number.int({ min: 10, max: 100 }),
-    category: faker.animal.type(),
-  };
-};
-
 // comparador de fechas
 
 const padToTwoDigits = (num) => {
