@@ -5,7 +5,7 @@ import 'dotenv/config';
 export const initMongoDB = async() => {
   try {
     await connect(
-      process.env.MONGO_LOCAL_URL
+      process.env.MONGO_ATLAS_URL
     );
     logger.info(`💾 Conectado a la base de datos MongoDB`);
   } catch (error) {
