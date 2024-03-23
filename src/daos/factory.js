@@ -17,8 +17,8 @@ let userDao;
 let prodDao;
 let cartDao;
 let ticketDao;
-let persistence = process.argv[2];
-// let persistence = process.env.PERSISTENCE;
+// let persistence = process.argv[2];
+let persistence = process.env.PERSISTENCE;
 
 switch (persistence) {
     case 'file':
