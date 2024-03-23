@@ -1,7 +1,7 @@
 import Services from "./class.services.js";
 import factory from "../daos/factory.js";
 const { prodDao } = factory;
-import { generateProdFaker } from '../utils.js';
+
 
 export default class ProductService extends Services {
   constructor() {
