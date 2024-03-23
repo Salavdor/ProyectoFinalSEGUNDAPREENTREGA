@@ -5,7 +5,7 @@
   "main": "src/server.js",
   "type": "module",
   "scripts": {
-    "start": "node .",
+    "start": "node ./src/server.js",
     "dev": "nodemon .",
     "mongo": "node . mongo",
     "fs": "node . file"
